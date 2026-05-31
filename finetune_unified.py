@@ -2,6 +2,7 @@ import os
 import json
 import argparse
 import torch
+import numpy as np
 from datetime import datetime
 from transformers import (
     AutoModelForCausalLM,
@@ -28,11 +29,14 @@ def parse_args():
     parser.add_argument("--alpha", type=int, default=32)
     parser.add_argument("--dropout", type=float, default=0.0, help="Dropout rate for CUR module")
     parser.add_argument("--train_C", action="store_true", help="Whether to train C matrix")
-    parser.add_argument("--train_U", action="store_true", default=True, help="Whether to train U matrix")
+    parser.add_argument("--train_U", dest="train_U", action="store_true", default=True, help="Whether to train U matrix")
+    parser.add_argument("--no_train_U", dest="train_U", action="store_false", help="Freeze U matrix and initialize it with pseudo-inverse")
     parser.add_argument("--train_R", action="store_true", help="Whether to train R matrix")
     parser.add_argument("--sampling_strategy", type=str, choices=["normal", "inverse", "random"], default="normal")
-    parser.add_argument("--replace", action="store_true", default=True, help="Sampling with replacement")
-    parser.add_argument("--adjust_dups", action="store_true", default=True, help="Adjust duplicates in sampling")
+    parser.add_argument("--replace", dest="replace", action="store_true", default=True, help="Sampling with replacement")
+    parser.add_argument("--no_replace", dest="replace", action="store_false", help="Sampling without replacement")
+    parser.add_argument("--adjust_dups", dest="adjust_dups", action="store_true", default=True, help="Adjust duplicates in sampling")
+    parser.add_argument("--no_adjust_dups", dest="adjust_dups", action="store_false", help="Keep duplicate samples instead of merging them")
     parser.add_argument("--u_init", type=str, choices=["zero", "kaiming"], default="zero")
     
     # 训练超参数
@@ -70,7 +74,7 @@ def apply_curlora_to_model(model, args):
         if any(target in name for target in target_modules) and isinstance(module, torch.nn.Linear):
             modules_to_replace.append((name, module))
             
-    for name, module in modules_to_replace:
+    for module_index, (name, module) in enumerate(modules_to_replace):
         if "." in name:
             parent_name = name.rsplit(".", 1)[0]
             child_name = name.rsplit(".", 1)[1]
@@ -92,7 +96,8 @@ def apply_curlora_to_model(model, args):
             sampling_strategy=args.sampling_strategy,
             replace=args.replace,
             adjust_dups=args.adjust_dups,
-            u_init=args.u_init
+            u_init=args.u_init,
+            seed=args.seed + module_index
         )
         setattr(parent, child_name, new_module)
         
@@ -119,7 +124,7 @@ def prepare_dataset(tokenizer, dataset_path, max_length):
         model_inputs = tokenizer(prompts, truncation=True, padding=False, max_length=max_length)
         
         labels = []
-        for i, prompt_full in enumerate(prompts):
+        for i in range(len(prompts)):
             prompt_only = prompts[i].split(outputs[i])[0]
             tokenized_prompt = tokenizer(prompt_only, truncation=True, max_length=max_length)
             prompt_len = len(tokenized_prompt["input_ids"])
@@ -152,6 +157,10 @@ def save_curlora_adapter(model, output_dir):
 
 def main():
     args = parse_args()
+    torch.manual_seed(args.seed)
+    np.random.seed(args.seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(args.seed)
     
     # 自动生成包含数据集名和时间戳的输出目录
     dataset_name = os.path.splitext(os.path.basename(args.dataset_path))[0]
