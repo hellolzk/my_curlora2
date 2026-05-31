@@ -8,15 +8,15 @@ from tqdm import tqdm
 
 # --- 配置区 ---
 # 基础模型路径
-BASE_MODEL_PATH = "/root/shared-nvme/models/llama3_2-3b/LLM-Research/Llama-3.2-3B"
+BASE_MODEL_PATH = "/mnt/bn/chenhaobo-va-data/liuzekun2/models/Qwen3-4B"
 # 合并后的模型路径
-MERGED_MODEL_PATH = "/root/shared-nvme/essence_of_lora/my_curlora/curlora_llama3_2_math_merge"
+MERGED_MODEL_PATH = "/mnt/bn/chenhaobo-va-data/liuzekun2/my_curlora2/curlora_llama3_2_math_merge"
 # Adapter 路径
-ADAPTER_PATH = "/root/shared-nvme/essence_of_lora/my_curlora/curlora_llama3_2_math_adapter"
+ADAPTER_PATH = "/mnt/bn/chenhaobo-va-data/liuzekun2/my_curlora2/curlora_llama3_2_math_adapter"
 # 完整数据集
-FULL_DATASET_PATH = "/root/shared-nvme/essence_of_lora/Dataset/meta_math_qa_finetune.json"
+FULL_DATASET_PATH = "/mnt/bn/chenhaobo-va-data/liuzekun2/my_curlora2origin_data/meta_math_qa_finetune.json"
 # 训练用过的数据集
-TRAIN_DATASET_PATH = "/root/shared-nvme/essence_of_lora/my_curlora/curlora_llama_3_2_math.json"
+TRAIN_DATASET_PATH = "/mnt/bn/chenhaobo-va-data/liuzekun2/my_curlora2/curlora_llama_3_2_math.json"
 # 抽样数量
 SAMPLE_SIZE = 1000
 
@@ -86,8 +86,8 @@ def main(mode):
     else:
         raise ValueError("无效的模式，请选择 'merged'、'dynamic' 或 'original'")
 
-    # OUTPUT_FILE_PATH = f"/root/shared-nvme/essence_of_lora/infer/inference_results_vllm_{mode}.json"
-    OUTPUT_FILE_PATH = f"/root/shared-nvme/essence_of_lora/my_curlora/curlora_llama_3_2_math_{mode}.json"
+    # OUTPUT_FILE_PATH = f"/mnt/bn/chenhaobo-va-data/liuzekun2/my_curlora2/inference_results_vllm_{mode}.json"
+    OUTPUT_FILE_PATH = f"/mnt/bn/chenhaobo-va-data/liuzekun2/my_curlora2/curlora_llama_3_2_math_{mode}.json"
 
 
     # 3. 开始批量推理

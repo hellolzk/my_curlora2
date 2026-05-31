@@ -18,9 +18,9 @@ def parse_args():
     parser = argparse.ArgumentParser(description="Fine-tune Qwen model with CUR-LoRA")
     
     # 模型和数据路径
-    parser.add_argument("--model_path", type=str, default="/root/shared-nvme/essence_of_lora/my_curlora/model/Qwen3-4B/Qwen/Qwen3-4B")
-    parser.add_argument("--dataset_path", type=str, default="/root/shared-nvme/essence_of_lora/my_curlora/process_data/alpaca/train_alpaca.json")
-    parser.add_argument("--output_base_dir", type=str, default="/root/shared-nvme/essence_of_lora/my_curlora/curlora_adapter/qwen3_4b")
+    parser.add_argument("--model_path", type=str, default="/mnt/bn/chenhaobo-va-data/liuzekun2/models/Qwen3-4B")
+    parser.add_argument("--dataset_path", type=str, default="/mnt/bn/chenhaobo-va-data/liuzekun2/my_curlora2process_data/alpaca/train_alpaca.json")
+    parser.add_argument("--output_base_dir", type=str, default="/mnt/bn/chenhaobo-va-data/liuzekun2/my_curlora2/curlora_adapter/qwen3_4b")
     
     # CUR 超参数
     parser.add_argument("--rank", type=int, default=None, help="Unified rank for both C and R")

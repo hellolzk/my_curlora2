@@ -6,10 +6,10 @@ from vllm import LLM, SamplingParams
 import gc
 
 # --- 配置路径 ---
-BASE_MODEL_PATH = "/root/shared-nvme/essence_of_lora/my_curlora/model/Qwen3-4B/Qwen/Qwen3-4B"
-ADAPTER_PATH = "/root/shared-nvme/essence_of_lora/my_curlora/curlora_adapter/qwen3_4b/train_alpaca_20260509_173915/curlora_adapter.bin"
-DATASET_PATH = "/root/shared-nvme/essence_of_lora/my_curlora/process_data/alpaca/test_alpaca.json"
-INFERENCE_DIR = "/root/shared-nvme/essence_of_lora/my_curlora/inference/qwen3_4b_alpaca_20260509_173915"
+BASE_MODEL_PATH = "/mnt/bn/chenhaobo-va-data/liuzekun2/models/Qwen3-4B"
+ADAPTER_PATH = "/mnt/bn/chenhaobo-va-data/liuzekun2/my_curlora2/curlora_adapter/qwen3_4b/train_alpaca_20260509_173915/curlora_adapter.bin"
+DATASET_PATH = "/mnt/bn/chenhaobo-va-data/liuzekun2/my_curlora2process_data/alpaca/test_alpaca.json"
+INFERENCE_DIR = "/mnt/bn/chenhaobo-va-data/liuzekun2/my_curlora2/inference/qwen3_4b_alpaca_20260509_173915"
 TEMP_MERGED_MODEL_DIR = os.path.join(INFERENCE_DIR, "temp_merged_model")
 OUTPUT_JSON_PATH = os.path.join(INFERENCE_DIR, "test_alpaca_results.json")
 

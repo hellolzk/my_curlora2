@@ -32,16 +32,16 @@ my_curlora/
 
 ```text
 模型路径：
-/Users/bytedance/essential_of_lora/model/models/Qwen3-4B
+/mnt/bn/chenhaobo-va-data/liuzekun2/models/Qwen3-4B
 
 数据路径：
-/Users/bytedance/essential_of_lora/process_data/process_data
+/mnt/bn/chenhaobo-va-data/liuzekun2/my_curlora2process_data
 ```
 
 默认输出路径：
 
 ```text
-/Users/bytedance/essential_of_lora/my_curlora/continual_runs/qwen3_4b_curlora
+/mnt/bn/chenhaobo-va-data/liuzekun2/my_curlora2/continual_runs/qwen3_4b_curlora
 ```
 
 ## 环境要求
@@ -62,7 +62,7 @@ Python 3.10 或 Python 3.11
 安装依赖：
 
 ```bash
-cd /Users/bytedance/essential_of_lora/my_curlora
+cd /mnt/bn/chenhaobo-va-data/liuzekun2/my_curlora2
 pip install -r requirements.txt
 ```
 
@@ -169,7 +169,7 @@ Alpaca 是生成任务，没有固定类别，默认使用随机抽样。
 ## 一键运行
 
 ```bash
-cd /Users/bytedance/essential_of_lora/my_curlora
+cd /mnt/bn/chenhaobo-va-data/liuzekun2/my_curlora2
 bash run_continual_curlora.sh
 ```
 
@@ -183,7 +183,7 @@ NUM_GPUS=8
 如果开发机路径不同，可以运行时覆盖：
 
 ```bash
-MODEL_PATH=/mnt/bn/chenhaobo-va-data/liuzekun2/model/models/Qwen3-4B \
+MODEL_PATH=/mnt/bn/chenhaobo-va-data/liuzekun2/models/Qwen3-4B \
 DATA_ROOT=/mnt/bn/chenhaobo-va-data/liuzekun2/my_curlora2process_data \
 OUTPUT_ROOT=/mnt/bn/chenhaobo-va-data/liuzekun2/curlora_forgetting_runs/qwen3_4b \
 bash run_continual_curlora.sh
@@ -357,9 +357,9 @@ TASK_ORDER=(alpaca BoolQ MNLI MRPC QQP SIQA SST2)
 torchrun --nproc_per_node 8 continual_train.py \
   --task_name alpaca \
   --stage_index 0 \
-  --model_path /Users/bytedance/essential_of_lora/model/models/Qwen3-4B \
-  --data_root /Users/bytedance/essential_of_lora/process_data/process_data \
-  --output_root /Users/bytedance/essential_of_lora/my_curlora/continual_runs/qwen3_4b_curlora \
+  --model_path /mnt/bn/chenhaobo-va-data/liuzekun2/models/Qwen3-4B \
+  --data_root /mnt/bn/chenhaobo-va-data/liuzekun2/my_curlora2process_data \
+  --output_root /mnt/bn/chenhaobo-va-data/liuzekun2/my_curlora2/continual_runs/qwen3_4b_curlora \
   --rank_c 16 \
   --rank_r 16 \
   --alpha 32 \
@@ -374,9 +374,9 @@ torchrun --nproc_per_node 8 continual_train.py \
   --task_name BoolQ \
   --stage_index 1 \
   --init_adapter_path continual_runs/qwen3_4b_curlora/00_alpaca/curlora_adapter.bin \
-  --model_path /Users/bytedance/essential_of_lora/model/models/Qwen3-4B \
-  --data_root /Users/bytedance/essential_of_lora/process_data/process_data \
-  --output_root /Users/bytedance/essential_of_lora/my_curlora/continual_runs/qwen3_4b_curlora \
+  --model_path /mnt/bn/chenhaobo-va-data/liuzekun2/models/Qwen3-4B \
+  --data_root /mnt/bn/chenhaobo-va-data/liuzekun2/my_curlora2process_data \
+  --output_root /mnt/bn/chenhaobo-va-data/liuzekun2/my_curlora2/continual_runs/qwen3_4b_curlora \
   --rank_c 16 \
   --rank_r 16 \
   --alpha 32 \
@@ -393,9 +393,9 @@ python continual_eval.py \
   --adapter_path continual_runs/qwen3_4b_curlora/01_BoolQ/curlora_adapter.bin \
   --stage_name 01_BoolQ \
   --tasks alpaca BoolQ \
-  --model_path /Users/bytedance/essential_of_lora/model/models/Qwen3-4B \
-  --data_root /Users/bytedance/essential_of_lora/process_data/process_data \
-  --output_root /Users/bytedance/essential_of_lora/my_curlora/continual_runs/qwen3_4b_curlora \
+  --model_path /mnt/bn/chenhaobo-va-data/liuzekun2/models/Qwen3-4B \
+  --data_root /mnt/bn/chenhaobo-va-data/liuzekun2/my_curlora2process_data \
+  --output_root /mnt/bn/chenhaobo-va-data/liuzekun2/my_curlora2/continual_runs/qwen3_4b_curlora \
   --rank_c 16 \
   --rank_r 16 \
   --alpha 32 \
@@ -420,7 +420,7 @@ python continual_eval.py \
 任务顺序
 rank_c / rank_r / alpha
 是否训练 C/U/R
-采样策略 normal / inverse / random
+采样策略 inverse / normal / random
 每个任务训练 epoch 或 max_steps
 每阶段历史任务 label_accuracy / rougeL
 forgetting_best_minus_final

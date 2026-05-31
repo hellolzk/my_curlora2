@@ -7,8 +7,8 @@ import numpy as np
 
 
 # 配置
-MODEL_PATH = "/root/shared-nvme/essence_of_lora/my_curlora/model/Qwen3-4B/Qwen/Qwen3-4B"
-DATASET_PATH = "/root/shared-nvme/essence_of_lora/my_curlora/dataset/wikitext-2-raw-v1/test/test-00000-of-00001.parquet"
+MODEL_PATH = "/mnt/bn/chenhaobo-va-data/liuzekun2/models/Qwen3-4B"
+DATASET_PATH = "/mnt/bn/chenhaobo-va-data/liuzekun2/my_curlora2/dataset/wikitext-2-raw-v1/test/test-00000-of-00001.parquet"
 MAX_LENGTH = 1024  # 根据显存调整，Qwen2.5-7B 在 A100/A800 上可以跑更大，但 1024 比较稳妥
 
 def calculate_ppl_qwen2_5():

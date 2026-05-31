@@ -5,20 +5,20 @@ set -euo pipefail # 遇到错误立即退出，未定义变量时报错，管道
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)" # 找到这个脚本所在目录，避免从别的目录启动时路径错乱。
 cd "$SCRIPT_DIR" # 切换到脚本目录，这样后面的 finetune_unified.py 可以被稳定找到。
 
-# source /root/shared-nvme/miniconda3/bin/activate lzkenv # 如需指定 conda 环境，取消本行注释并改成你的环境路径。
+# source /path/to/miniconda3/bin/activate lzkenv # 如需指定 conda 环境，取消本行注释并改成你的环境路径。
 
 export WANDB_DISABLED="true" # 关闭 Weights & Biases 日志上传，避免训练时弹登录或联网。
 export SWANLAB_DISABLED="true" # 关闭 SwanLab 日志上传，保持训练只在本地输出日志。
 
-MODEL_PATH="${MODEL_PATH:-/root/shared-nvme/essence_of_lora/my_curlora/model/Qwen3-4B/Qwen/Qwen3-4B}" # 基座模型目录；也可以运行前用环境变量 MODEL_PATH 覆盖。
-DATASET_PATH="${DATASET_PATH:-/root/shared-nvme/essence_of_lora/my_curlora/process_data/alpaca/train_alpaca.json}" # 训练数据 JSON 文件路径；默认使用 alpaca 训练集。
-OUTPUT_DIR="${OUTPUT_DIR:-/root/shared-nvme/essence_of_lora/my_curlora/curlora_adapter/qwen3_4b}" # 适配器和配置的输出根目录；脚本会在里面自动加数据集名和时间戳。
+MODEL_PATH="${MODEL_PATH:-/mnt/bn/chenhaobo-va-data/liuzekun2/models/Qwen3-4B}" # 基座模型目录；也可以运行前用环境变量 MODEL_PATH 覆盖。
+DATASET_PATH="${DATASET_PATH:-/mnt/bn/chenhaobo-va-data/liuzekun2/my_curlora2process_data/alpaca/train_alpaca.json}" # 训练数据 JSON 文件路径；默认使用 alpaca 训练集。
+OUTPUT_DIR="${OUTPUT_DIR:-/mnt/bn/chenhaobo-va-data/liuzekun2/my_curlora2/curlora_adapter/qwen3_4b}" # 适配器和配置的输出根目录；脚本会在里面自动加数据集名和时间戳。
 
 RANK_C="${RANK_C:-16}" # C 矩阵采样的列数；越大表达能力越强，但显存和计算更多。
 RANK_R="${RANK_R:-16}" # R 矩阵采样的行数；通常和 RANK_C 保持一致，便于控制规模。
 ALPHA="${ALPHA:-32}" # CUR-LoRA 分支的缩放系数；最终输出会加上 alpha 倍的 CUR 分支。
 DROPOUT="${DROPOUT:-0.05}" # CUR 分支 dropout 概率；适当 dropout 可以减轻过拟合。
-SAMPLING_STRATEGY="${SAMPLING_STRATEGY:-normal}" # 采样策略：normal 按能量采样，inverse 偏向低能量行列，random 均匀随机。
+SAMPLING_STRATEGY="${SAMPLING_STRATEGY:-inverse}" # 采样策略：normal 按能量采样，inverse 偏向低能量行列，random 均匀随机。
 U_INIT="${U_INIT:-zero}" # U 矩阵初始化方式：zero 初始不扰动原模型，kaiming 初始就有非零 CUR 分支。
 
 TRAIN_C_FLAG="${TRAIN_C_FLAG:-}" # 是否训练 C；想训练 C 时设置为 --train_C，留空表示固定 C。

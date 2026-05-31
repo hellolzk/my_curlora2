@@ -1,9 +1,9 @@
 from pathlib import Path
 
 
-DEFAULT_MODEL_PATH = "/Users/bytedance/essential_of_lora/model/models/Qwen3-4B"
-DEFAULT_DATA_ROOT = "/Users/bytedance/essential_of_lora/process_data/process_data"
-DEFAULT_OUTPUT_ROOT = "/Users/bytedance/essential_of_lora/my_curlora/continual_runs/qwen3_4b_curlora"
+DEFAULT_MODEL_PATH = "/mnt/bn/chenhaobo-va-data/liuzekun2/models/Qwen3-4B"
+DEFAULT_DATA_ROOT = "/mnt/bn/chenhaobo-va-data/liuzekun2/my_curlora2process_data"
+DEFAULT_OUTPUT_ROOT = "/mnt/bn/chenhaobo-va-data/liuzekun2/my_curlora2/continual_runs/qwen3_4b_curlora"
 
 
 TASK_ORDER = [

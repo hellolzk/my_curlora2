@@ -64,9 +64,9 @@ def calculate_bertscore(file1_path, file2_path):
 if __name__ == "__main__":
 
     # 参考答案
-    file1 = "/root/shared-nvme/essence_of_lora/my_curlora/process_data/alpaca/test_alpaca.json"
+    file1 = "/mnt/bn/chenhaobo-va-data/liuzekun2/my_curlora2process_data/alpaca/test_alpaca.json"
 
     # 模型生成结果
-    file2 = "/root/shared-nvme/essence_of_lora/my_curlora/inference/qwen3_4b_alpaca_20260509_173915/test_alpaca_results.json"
+    file2 = "/mnt/bn/chenhaobo-va-data/liuzekun2/my_curlora2/inference/qwen3_4b_alpaca_20260509_173915/test_alpaca_results.json"
 
     calculate_bertscore(file1, file2)
