@@ -1,0 +1,6 @@
+qqp_processed/
+dataset/
+process_data/
+*.json
+*.parquet
+*.bin
